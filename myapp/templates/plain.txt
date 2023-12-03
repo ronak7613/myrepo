@@ -1,0 +1,19 @@
+
+
+
+1. sub activity multiple 
+2. sub activity relation with activities
+3. sub regions relation with region
+4. drop auto fetch
+5. connect users.
+
+
+
+6. automated 
+7. ask for 3 pdf in sanyam.
+
+
+
+8. need to show anumber of filterd rows.
+
+

@@ -1,0 +1,432 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtered Table</title>
+    <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.css'>
+    <link rel='stylesheet' href='//rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/css/bootstrap-editable.css'>
+    <style>
+    .navbar {
+      background-color: #3f60a0; /* Blue background color */
+      color: white;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000; /* Set a higher z-index */
+    }
+    .navbar-title {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center; /* Center the title */
+        {% comment %} flex-grow: 1; /* Allow the title to grow and take available space */ {% endcomment %}
+        {% comment %} display: flex; {% endcomment %}
+        background-color: white ;
+        width: 351px;
+        margin : 0 auto;
+        justify-content: center;
+        border-radius: 15px;
+    }
+
+    </style>
+</head>
+<body>
+    
+  <nav class="navbar">
+    <div class="navbar-title"><span class="OYPEnA" style="font-family: 'YAEaP6ZaCOE 0', '_fb_', 'auto'; font-size: 33.3773px; 
+        line-height: 46px;
+        letter-spacing: 0em;
+        --para-spacing: 0;
+        text-transform: none;
+        --head-indent: 0;
+        --numeric-list-marker: none;
+        list-style-type: none; color: #3f60a0;">Mahattam Mohatsav</span></div>
+  </nav>
+  {% comment %} color: rgb(255, 255, 255); {% endcomment %}
+    
+        <!-- Bootstrap table to display the filtered data -->
+        <br>
+        <br><br><br><br>
+        <br>
+        <br>
+        <br>
+
+        <table id="table" 
+			 data-toggle="table"
+			 data-search="true"
+			 data-filter-control="true" 
+			 data-show-export="true"
+			 data-click-to-select="true"             
+       data-export-options='{"fileName": "filtered_table"}'
+       class="table-responsive">
+
+       <thead>
+        {% if filter_activity == "Tap Tyag MM" %}
+        <tr>
+          
+          <th data-field="sr">sr</th>
+          <th data-field="person_id">person_id</th>
+          <th data-field="Time">Time</th>
+          <th data-field="off_Time">off_Time</th>
+          <th data-field="Activity">Activity</th>
+          <th data-field="First_Name">पहला नाम / First Name</th>
+          <th data-field="Husband_Father_Name">पिता / पति का नाम /  Husband / Father Name</th>
+          <th data-field="Surname">Surname</th>
+          <th data-field="Gender">लिंग / Gender</th>
+          <th data-field="Age">उम्र / Age</th>
+          <th data-field="Country">देश - Country</th>
+          <th data-field="India_Whatsapp_No">India_Whatsapp_No</th>
+          <th data-field="Pincode">Pincode</th>
+          <th data-field="Foreign_WhatsappNo">Foreign_WhatsappNo</th>
+          <th data-field="Pincode_FR">Pincode_FR</th>
+          <th data-field="Sub_Region">Sub_Region</th>
+          <th data-field="State">State</th>
+          <th data-field="Region">Region</th>
+          <th data-field="A1">A1</th>
+          <th data-field="which_ladi">इनमे_से_किस_लड़ी_में_भाग_लेंगे</th>
+          <th data-field="A2">A2</th>
+          <th data-field="A3">आप महत्तम महोत्सव में फरवरी 2025 तक  प्रतिदिन 1 घंटा मौन आराधना करेंगे</th>
+          <th data-field="A4">आप महत्तम महोत्सव में फरवरी 2025 तक  प्रतिमाह 4 रात्रि चौविहार प्रत्याख्यान_सूर्यास्त से अगले दिन तक नवकारसी_पक्की नवकारसी कर जीवो को अभय दान देंगे
+          </th>
+          <th data-field="a5">आप महत्तम महोत्सव में फरवरी 2025 तक 50 दिन पूर्ण सूर्य अस्त से सूर्य उदय संवर/पौषध/ पूर्ण दया करेंगे
+          </th>
+          <th data-field="a6">आप महत्तम महोत्सव में फरवरी 2025 तक दूध_दही_घी_तेल_मीठा  में से किसी भी एक विगय का प्रतिदिन त्याग करेंगे
+          </th>
+          <th data-field="score">स्कोर
+          </th>
+        </tr>
+      {% elif filter_activity == "Swadhay MM" %}      
+        <tr>
+          <th data-field="si" data-sortable="true">Sl.No</th>
+          <th data-field="sr" data-sortable="true">SR No</th>
+          <th data-field="person_id" data-sortable="true">प्रत्युत्तर ID</th>
+          <th data-field="Time " data-sortable="true">प्रत्युत्तर प्रारंभ</th>
+          <th data-field="off_Time" data-sortable="true"> प्रत्युत्तर पूर्ण</th>
+          <th data-field="ip" data-sortable="true">IP पता</th>
+          <th data-field="Activity" data-sortable="true">संग्राहक का नाम</th>
+          <th data-field="First_Name" data-sortable="true">पहला नाम /First Name </th>
+          <th data-field="Husband_Father_Name" data-sortable="true">पिता / पति का नाम / Husband / Father Name</th>
+          <th data-field="Surname" data-sortable="true">सरनेम / Surname</th>
+          <th data-field="Srimad_dasvekalik_RegistrationID_1" data-sortable="true">Srimad dasvekalik Registration ID 1</th>
+          <th data-field="Srimad_dasvekalik_RegistrationID_2" data-sortable="true">Srimad dasvekalik Registration ID 2</th>
+          <th data-field="full_name" data-sortable="true">Full Name</th>
+          <th data-field="Age" data-sortable="true">उम्र / Age (Only Numbers)</ data-sortable="true"th>
+          <th data-field="Country" data-sortable="true">देश - Country</th>
+          <th data-field="Transalate" data-sortable="true">Transalate</th>
+          <th data-field="India_Whatsapp_No" data-sortable="true">मोबाइल नंबर - विदेश - Foreign (Whatsapp No.)</th>
+          <th data-field="Pincode" data-sortable="true">पिनकोड - Pincode</th>
+          <th data-field="Foreign_WhatsappNo" data-sortable="true">मोबाइल नंबर - विदेश - Foreign (Whatsapp No.)</th>
+          <th data-field="Pincode_FR" data-sortable="true">पिनकोड - Pincode(fr)</th>
+          <th data-field="Sub_Region" data-sortable="true">शहर/ गांव</th>
+          <th data-field="zila" data-sortable="true">जिला</th>
+          <th data-field="State" data-sortable="true">State / राज्य</th>
+          <th data-field="Region" data-sortable="true">Anchal / अंचल</th>          
+          <th data-field="C2" data-sortable="true">आप जिन प्रवृत्तियों से जुड़ना चाहते है उनसे सम्बंधित पुस्तक मँगवाने हेतु अपना पता (Postal Address) लिखे।</th>
+          <th data-field="C10" data-sortable="true">प्रवृति(आप 1 या उससे अधिक प्रवृत्तियों से भी जुड़ सकते है।)</th>
+          {% if "A1" in filter_subactivity_name  %}
+          <th data-field="A1" data-sortable="true">आप  आचार्य भगवन के प्रवचन / चिंतन की पुस्तकें पढ़ने के प्रकल्प से जुड़ना चाहते हैं?Note : हर वर्ष में  3 पुस्तकें  पढ़कर उनपर आधारित परीक्षा  </th>
+          {% elif "A2" in filter_subactivity_name  %}
+          <th data-field="A2" data-sortable="true">Eye to I (Hindi), ब्रह्माक्षर और भ्रामरी - ये तीनो पुस्तक आपके पास उपलब्ध है </th>
+          {% endif %}
+          <th data-field="C1" data-sortable="true">निम्नलिखित 9 पुस्तको में से आपके पास जो पुस्तक NO है उनका चयन करें जिससे आप तक वो पुस्तक उपलब्ध करवा सके</th>           
+          <th data-field="C3" data-sortable="true">इस वर्ष आपको इन तीन पुस्तकों (1. Eye to I, 2.ब्रह्माक्षर 3.भ्रामरी)में से जो चाहिए उस पर टिक करे |</th>
+          <th data-field="C4" data-sortable="true">Upload Payment Screenshot with UTR Number and Date of TransactionNote: सही जानकारी NO देने पर पेमेंट अमान्य माना जाएगा।  [jpeg,jpg,png]</th>
+          <th data-field="C5" data-sortable="true">UTR Transaction ID</th>
+          {% if "A3" in filter_subactivity_name  %}
+          <th data-field="A3" data-sortable="true">आप 9 महापुरुषों (आचार्यों )के जीवन परिचय को पढ़ने के प्रकल्प से जुड़ना चाहते हैं ?</th>
+          {% elif "A4" in filter_subactivity_name  %}
+          <th data-field="A4" data-sortable="true">क्या आपके पास इस संबंध में पुस्तक उपलब्ध है ?</th>
+          {% elif "A5" in filter_subactivity_name  %}
+          <th data-field="A5" data-sortable="true">क्या आपने कभी 9 महापुरुषों ( आचार्यों ) का जीवन चारित्र पढ़ा है ?</th>
+          {% endif %}
+          <th data-field="C6" data-sortable="true">किस महापुरुष का जीवन चारित्र पढ़ा हैं ?</th>
+          {% if "A6" in filter_subactivity_name  %}
+          <th data-field="A6" data-sortable="true">क्या आप आध्यात्मिक आरोग्यम के 9 बिंदुओं के बारे में जानते है ?</th>
+          {% elif "A7" in filter_subactivity_name  %}
+          <th data-field="A7" data-sortable="true">क्या आप आध्यात्मिक आरोग्यम का हिस्सा बनना चाहते है?</th>
+          {% elif "A8" in filter_subactivity_name  %}
+          <th data-field="A8" data-sortable="true">क्या आप संघ द्वारा प्रेषित आध्यात्मिक आरोग्यम की पुस्तक प्राप्त करना चाहते हैं?</th>
+          {% elif "A9" in filter_subactivity_name  %}
+          <th data-field="A9" data-sortable="true">आप श्रीमद् दशवैकालिक सूत्र के 4 अध्ययन कंठस्थ करने के प्रकल्प से जुड़ना चाहते हैं?</th>
+          {% endif %}                      
+        </tr>          
+    {% else %}
+    <p>default</p>
+    {% endif %}
+
+        
+  </thead>  
+  
+      <tbody>
+        {% if filter_activity == "Tap Tyag MM" %}
+          {% for item in filtered_data_TapTyag %}
+            <tr>
+              <td>{{ item.sr }}</td>
+              <td>{{ item.person_id }}</td>
+              <td> {{item.Time}}</td>
+              <td>{{ item.off_Time }}</td>
+              <td>{{ item.Activity }}</td>
+              <td>{{ item.First_Name }}</td>
+              <td>{{ item.Husband_Father_Name }}</td>
+              <td>{{ item.Surname }}</td>
+              <td>{{ item.Gender }}</td>
+              <td>{{ item.Age }}</td>
+              <td>{{ item.Country }}</td>
+              <td>{{ item.India_Whatsapp_No }}</td>
+              <td>{{ item.Pincode }}</td>
+              <td>{{ item.Foreign_WhatsappNo }}</td>
+              <td>{{ item.Pincode_FR }}</td>
+              <td>{{ item.Sub_Region }}</td>
+              <td>{{ item.State }}</td>
+              <td>{{ item.Region }}</td>
+              <td>{{ item.A1 }}</td>
+              <td>{{ item.which_ladi }}</td>
+              <td>{{ item.A2 }}</td>
+              <td>{{ item.A3 }}</td>
+              <td>{{ item.A4 }}</td>
+              <td>{{ item.a5 }}</td>
+              <td>{{ item.a6 }}</td>
+              <td>{{ item.score }}</td>            
+            </tr>
+          {% endfor %}
+        {% elif filter_activity == "Swadhay MM" %}
+        {% for item in filtered_data_swadhyay %}
+        
+          <tr>
+            <td>{{ item.si }}</td>
+            <td>{{ item.sr }}</td>
+            <td>{{ item.person_id }}</td>
+            <td>{{ item.Time }}</td>
+            <td>{{ item.off_Time }}</td>
+            <td>{{ item.ip }}</td>
+            <td>{{ item.Activity }}</td>
+            <td>{{ item.First_Name }}</td>
+            <td>{{ item.Husband_Father_Name }}</td>
+            <td>{{ item.Surname }}</td>
+            <td>{{ item.Srimad_dasvekalik_RegistrationID_1 }}</td>
+            <td>{{ item.Srimad_dasvekalik_RegistrationID_2 }}</td>
+            <td>{{ item.full_name }}</td>
+            <td>{{ item.Age }}</td>
+            <td>{{ item.Country }}</td>
+            <td>{{ item.Transalate }}</td>
+            <td>{{ item.India_Whatsapp_No }}</td>
+            <td>{{ item.Pincode }}</td>
+            <td>{{ item.Foreign_WhatsappNo }}</td>
+            <td>{{ item.Pincode_FR }}</td>
+            <td>{{ item.Sub_Region }}</td>
+            <td>{{ item.zila }}</td>
+            <td>{{ item.State }}</td>
+            <td>{{ item.Region }}</td>
+            {% comment %} <td>{{ item.address }}</td> {% endcomment %}
+            <td>{{ item.C2 }}</td>
+            <td>{{ item.C10 }}</td>
+            {% if "A1" in filter_subactivity_name  %}
+            <td>{{ item.A1 }}</td>
+            {% elif "A2" in filter_subactivity_name  %}
+            <td>{{ item.A2 }}</td>
+            {% endif %}
+            <td>{{ item.C1 }}</td>
+            <td>{{ item.C3 }}</td>
+            <td>{{ item.C4 }}</td>
+            <td>{{ item.C5 }}</td>
+            {% if "A3" in filter_subactivity_name  %}
+            <td>{{ item.A3 }}</td>
+            {% elif "A4" in filter_subactivity_name  %}
+            <td>{{ item.A4 }}</td>
+            {% elif "A5" in filter_subactivity_name  %}
+            <td>{{ item.A5 }}</td>
+            {% endif %}
+            <td>{{ item.C6 }}</td>
+            {% if "A6" in filter_subactivity_name  %}
+            <td>{{ item.A6 }}</td>
+            {% elif "A7" in filter_subactivity_name  %}
+            <td>{{ item.A7 }}</td>
+            {% elif "A8" in filter_subactivity_name  %}
+            <td>{{ item.A8 }}</td>
+            {% elif "A9" in filter_subactivity_name  %}
+            <td>{{ item.A9 }}</td>  
+            {% endif %}                                                                
+          </tr>
+        
+        
+      {% endfor %}
+    
+        {% else %}
+          <p>Default content</p>
+        {% endif %}
+{% comment %}         
+            <thead>
+                <tr>
+                    <th data-field="Date">Date</th>
+                    <th data-field="Activity">Activity</th>
+                    <th data-field="Region">Region</th>
+                    <th data-field="Sub_Region">Sub_Region</th>
+                    <th data-field="Full_name">Full_name</th>
+                    <th data-field="Age">Age</th>
+                    <th data-field="Gender">Gender</th>
+                    <th data-field="Whatsapp_India">Whatsapp_India</th>
+                    <th data-field="Pincode">Pincode</th>
+                    <th data-field="Village">Village</th>
+                    <th data-field="SUB_ACTIVITY1">SUB_ACTIVITY1</th>
+                    <th data-field="SA2">SA2</th>
+                    <th data-field="SA3">SA3</th>
+                    <th data-field="SA4">SA4</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in filtered_data %}
+                <tr>
+                    <td>{{ item.Date }}</td>
+                    <td>{{ item.Activity }}</td>
+                    <td>{{ item.Region }}</td>
+                    <td>{{ item.Sub_Region }}</td>
+                    <td>{{ item.Full_name }}</td>
+                    <td>{{ item.Age }}</td>
+                    <td>{{ item.Gender }}</td>                    
+                    <td>{{ item.Whatsapp_India }}</td>
+                    <td>{{ item.Pincode }}</td>
+                    <td>{{ item.Village }}</td>
+                    <td>{{ item.SUB_ACTIVITY1 }}</td>
+                    <td>{{ item.SA2 }}</td>
+                    <td>{{ item.SA3 }}</td>
+                    <td>{{ item.SA4 }}</td>
+
+                    
+                
+                </tr>
+                {% endfor %} {% endcomment %}
+        </tbody>
+      </table>
+    </div>  
+
+
+<script src='//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/editable/bootstrap-table-editable.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/export/bootstrap-table-export.js'></script>
+<script src='//rawgit.com/hhurz/tableExport.jquery.plugin/master/tableExport.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.9.1/extensions/filter-control/bootstrap-table-filter-control.js'></script><script  src="./script.js"></script>
+{% comment %} <script src="{%static 'js/script.js' %}"></script> {% endcomment %}
+</body>
+</html>
+
+{% comment %} 
+<th data-field="C2">आप जिन प्रवृत्तियों से जुड़ना चाहते है उनसे सम्बंधित पुस्तक मँगवाने हेतु अपना पता (Postal Address) लिखे।</th>
+          <th data-field="C10">प्रवृति(आप 1 या उससे अधिक प्रवृत्तियों से भी जुड़ सकते है।)</th>
+          <th data-field="A1">आप  आचार्य भगवन के प्रवचन / चिंतन की पुस्तकें पढ़ने के प्रकल्प से जुड़ना चाहते हैं?Note : हर वर्ष में  3 पुस्तकें  पढ़कर उनपर आधारित परीक्षा  </th>
+          <th data-field="A2">Eye to I (Hindi), ब्रह्माक्षर और भ्रामरी - ये तीनो पुस्तक आपके पास उपलब्ध है </th>
+          <th data-field="C1">निम्नलिखित 9 पुस्तको में से आपके पास जो पुस्तक NO है उनका चयन करें जिससे आप तक वो पुस्तक उपलब्ध करवा सके</th>           
+          <th data-field="C3">इस वर्ष आपको इन तीन पुस्तकों (1. Eye to I, 2.ब्रह्माक्षर 3.भ्रामरी)में से जो चाहिए उस पर टिक करे |</th>
+          <th data-field="C4">Upload Payment Screenshot with UTR Number and Date of TransactionNote: सही जानकारी NO देने पर पेमेंट अमान्य माना जाएगा।  [jpeg,jpg,png]</th>
+          <th data-field="C5">UTR Transaction ID</th>
+          <th data-field="A3">आप 9 महापुरुषों (आचार्यों )के जीवन परिचय को पढ़ने के प्रकल्प से जुड़ना चाहते हैं ?</th>
+          <th data-field="A4">क्या आपके पास इस संबंध में पुस्तक उपलब्ध है ?</th>
+          <th data-field="A5">क्या आपने कभी 9 महापुरुषों ( आचार्यों ) का जीवन चारित्र पढ़ा है ?</th>
+          <th data-field="C6">किस महापुरुष का जीवन चारित्र पढ़ा हैं ?</th>
+          <th data-field="A6">क्या आप आध्यात्मिक आरोग्यम के 9 बिंदुओं के बारे में जानते है ?</th>
+          <th data-field="A7">क्या आप आध्यात्मिक आरोग्यम का हिस्सा बनना चाहते है?</th>
+          <th data-field="A8">क्या आप संघ द्वारा प्रेषित आध्यात्मिक आरोग्यम की पुस्तक प्राप्त करना चाहते हैं?</th>
+          <th data-field="A9">आप श्रीमद् दशवैकालिक सूत्र के 4 अध्ययन कंठस्थ करने के प्रकल्प से जुड़ना चाहते हैं?</th> {% endcomment %}
+
+{% comment %} <th data-field="sr">sr</th>
+          <th data-field="person_id">person_id</th>
+          <th data-field="Time">Time</th>
+          <th data-field="off_Time">off_Time</th>
+          <th data-field="Activity">Activity</th>
+          <th data-field="First_Name">पहला नाम / First Name</th>
+          <th data-field="Husband_Father_Name">पिता / पति का नाम / Husband / Father Name</th>
+          <th data-field="Surname">Surname</th>
+          <th data-field="Age">उम्र / Age (Only Numbers)</th>
+          <th data-field="Country">देश - Country</th>
+          <th data-field="India_Whatsapp_No">मोबाइल नंबर - विदेश - Foreign (Whatsapp No.)</th>
+          <th data-field="Pincode">पिनकोड - Pincode</th>
+          <th data-field="Foreign_WhatsappNo">मोबाइल नंबर - विदेश - Foreign (Whatsapp No.)</th>
+          <th data-field="Pincode_FR">पिनकोड - Pincode(fr)</th>
+          <th data-field="Sub_Region">शहर/ गांव</th>
+          <th data-field="zila">जिला</th>
+          <th data-field="State">State / राज्य</th>
+          <th data-field="Region">Anchal / अंचल</th>
+          <th data-field="address">Address</th>
+          <th data-field="C2">C1</th>
+          <th data-field="A1">C2</th>
+          <th data-field="A2">C3</th>
+          <th data-field="C1">निम्नलिखित 9 पुस्तको में से आपके पास जो पुस्तक NO है उनका चयन करें जिससे आप तक वो पुस्तक उपलब्ध करवा सके</th>           
+          <th data-field="C3">इस वर्ष आपको इन तीन पुस्तकों (1. Eye to I, 2.ब्रह्माक्षर 3.भ्रामरी)में से जो चाहिए उस पर टिक करे |</th>
+          <th data-field="C4">Upload Payment Screenshot with UTR Number and Date of TransactionNote: सही जानकारी NO देने पर पेमेंट अमान्य माना जाएगा।  [jpeg,jpg,png]</th>
+          <th data-field="C5">UTR Transaction ID</th>
+          <th data-field="A3">आप 9 महापुरुषों (आचार्यों )के जीवन परिचय को पढ़ने के प्रकल्प से जुड़ना चाहते हैं ?</th>
+          <th data-field="A4">क्या आपके पास इस संबंध में पुस्तक उपलब्ध है ?</th>
+          <th data-field="A5">क्या आपने कभी 9 महापुरुषों ( आचार्यों ) का जीवन चारित्र पढ़ा है ?</th>
+          <th data-field="C6">किस महापुरुष का जीवन चारित्र पढ़ा हैं ?</th>
+          <th data-field="A6">क्या आप आध्यात्मिक आरोग्यम के 9 बिंदुओं के बारे में जानते है ?</th>
+          <th data-field="A7">क्या आप आध्यात्मिक आरोग्यम का हिस्सा बनना चाहते है?</th>
+          <th data-field="A8">क्या आप संघ द्वारा प्रेषित आध्यात्मिक आरोग्यम की पुस्तक प्राप्त करना चाहते हैं?</th>
+          <th data-field="A9">आप श्रीमद् दशवैकालिक सूत्र के 4 अध्ययन कंठस्थ करने के प्रकल्प से जुड़ना चाहते हैं?</th>
+          
+          <th data-field="A10">आपने पहले श्रीमद् दशवैकालिक सूत्र कंठस्थ किया हुआ है ?</th>
+          <th data-field="C7">अगर Yes तो कितने अध्ययन कंठस्थ किये हुए है ?</th>
+          <th data-field="A11">क्या आपके पास नीचे दी गई पुस्तक उपलब्ध है ?</th>
+          <th data-field="C8">आप कैसे कंठस्थ करना चाहोगे ?</th>
+          <th data-field="A12">क्या आप प्रतिदिन 100 गाथाओं का स्वाध्याय करना, इस प्रकल्प से जुड़ना चाहते हैं?</th>
+          <th data-field="A13">पूर्व में आपने गाथाओ का अध्ययन किया है क्या?</th>
+          <th data-field="C9">आप 100 गाथाओं का अध्ययन कब तक करना चाहेंगे?</th>
+          <th data-field="A14">क्या आपको अस्वाध्याय काल के बारे में पता हैं ?</th>
+          <th data-field="score">स्कोर</th> {% endcomment %}
+
+          {% comment %} <td>{{ item.sr }}</td>
+            <td>{{ item.person_id }}</td>
+            <td>{{ item.Time }}</td>
+            <td>{{ item.off_Time }}</td>
+            <td>{{ item.Activity }}</td>
+            <td>{{ item.First_Name }}</td>
+            <td>{{ item.Husband_Father_Name }}</td>
+            <td>{{ item.Surname }}</td>
+            <td>{{ item.Age }}</td>
+            <td>{{ item.Country }}</td>
+            <td>{{ item.India_Whatsapp_No }}</td>
+            <td>{{ item.Pincode }}</td>
+            <td>{{ item.Foreign_WhatsappNo }}</td>
+            <td>{{ item.Pincode_FR }}</td>
+            <td>{{ item.Sub_Region }}</td>
+            <td>{{ item.zila }}</td>
+            <td>{{ item.State }}</td>
+            <td>{{ item.Region }}</td>
+            <td>{{ item.address }}</td>
+            <td>{{ item.C2 }}</td>
+            <td>{{ item.A1 }}</td>
+            <td>{{ item.A2 }}</td>
+            <td>{{ item.C1 }}</td>
+            <td>{{ item.C3 }}</td>
+            <td>{{ item.C4 }}</td>
+            <td>{{ item.C5 }}</td>
+            <td>{{ item.A3 }}</td>
+            <td>{{ item.A4 }}</td>
+            <td>{{ item.A5 }}</td>
+            <td>{{ item.C6 }}</td>
+            <td>{{ item.A6 }}</td>
+            <td>{{ item.A7 }}</td>
+            <td>{{ item.A8 }}</td>
+            <td>{{ item.A9 }}</td>
+            <td>{{ item.A10 }}</td>
+            <td>{{ item.C7 }}</td>
+            <td>{{ item.A11 }}</td>
+            <td>{{ item.C8 }}</td>
+            <td>{{ item.A12 }}</td>
+            <td>{{ item.A13 }}</td>
+            <td>{{ item.C9 }}</td>
+            <td>{{ item.A14 }}</td>
+            <td>{{ item.score }}</td> {% endcomment %}
+
+            {% comment %} <script src="{%static 'js/tableExport.jquery.plugin-master/tableExport.js' %}"></script>
+<script src="{%static 'js/tableExport.jquery.plugin-master/jquery.base64.js' %}"></script>
+<script src="{%static 'js/tableExport.jquery.plugin-master/jspdf/libs/sprintf.js' %}"></script>
+{% comment %} <script src="{%static 'js/tableExport.jquery.plugin-master/jspdf/jspdf.js' %}"></script> {% endcomment %}
+{% comment %} <script src="{%static 'js/tableExport.jquery.plugin-master/jspdf/libs/base64.js' %}"></script>
+<script src="{%static 'js/script.js' %}"></script> {% endcomment %} 

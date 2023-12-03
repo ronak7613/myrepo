@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+
+    body {
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           height: 100vh;
+           margin: 0;
+           background-color: white;
+    }
+    .container {
+        max-width: 400px; /* Adjust the maximum width as needed */
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f5f5f5;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        margin: 0 auto; /* Center the container horizontally */
+        width: 90%; /* Width for larger screens */
+        position: absolute;
+
+    }
+
+    .login{
+        display: flex;
+        background-color: #3f60a0;
+        color: whitesmoke;
+        margin : 0 auto;
+        justify-content: center;
+        border-radius: 15px;
+    }    
+    .login100-form-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 29px;
+        margin: 0;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 15px;
+      }
+
+    .navbar {
+        background-color: #3f60a0; /* Blue background color */
+        color: white;
+        padding: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000; /* Set a higher z-index */
+    }
+    .navbar-title {
+        font-size: 18px;
+        font-weight: bold;
+        text-align: center; /* Center the title */
+        flex-grow: 1; /* Allow the title to grow and take available space */
+    }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <div class="navbar-title"><span class="OYPEnA" style="font-family: 'YAEaP6ZaCOE 0', '_fb_', 'auto'; font-size: 33.3773px; color: rgb(255, 255, 255);
+        line-height: 46px;
+        letter-spacing: 0em;
+        --para-spacing: 0;
+        text-transform: none;
+        --head-indent: 0;
+        --numeric-list-marker: none;
+        list-style-type: none;">Mahattam Mohatsav</span></div>
+</nav>
+
+    <div class= 'container'>
+    <div class='login' id='lgoin name' >
+        <h2>Login</h2>
+    </div>
+
+<!-- Rest of your login form HTML -->
+    <form class="login100-form validate-form" action={% url 'login' %} method="POST">
+                        
+        {% csrf_token %}
+        <br>
+        <br>
+        <br>
+        <div class="wrap-input100 validate-input m-b-26" data-validate="Username is required">
+            <span class="label-input100" style="height: 30px;">Username</span>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <input class="input100" type="text" name="username" placeholder="Enter username" style="width: 62%;height: 30px; border-radius: 15px;">
+            <span class="focus-input100"></span>
+        </div>
+        
+        <br>
+        <br>
+        <div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
+            
+            <span class="label-input100" style="height: 30px;">Password</span>
+            &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+            <input class="input100" type="password" name="password" placeholder="Enter password" style="width: 62%;height: 30px; border-radius: 15px;">
+            <span class="focus-input100"></span>
+        </div>
+        <br>
+        <br>
+{% comment %} 
+        <div class="flex-sb-m w-full p-b-30">
+            <div class="contact100-form-checkbox">
+                <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+                <label class="label-checkbox100" for="ckb1">
+                    Remember me
+                </label>
+            </div>
+
+            <div>
+                <a href="#" class="txt1">
+                    Forgot Password?
+                </a>
+            </div>
+        </div> {% endcomment %}
+        <br>
+        <br>
+        <div class="container-login100-form-btn">
+            <button class="login100-form-btn" style="width: 62%; ">
+                Login
+            </button>
+            &nbsp; &nbsp; &nbsp;&nbsp;  
+            
+            {% comment %} <a href="register" class="dis-block txt3 hov1 p-r-30 p-t-10 p-b-10 p-l-30">
+                create account
+                <i class="fa fa-long-arrow-right m-l-5"></i>
+            </a> {% endcomment %}
+
+        </div>
+        <div>
+        {%for message in messages%}
+            {{message}}
+        {%endfor%}
+    </div>
+</form>
+</div>
+</body>
+</html>
+
+<!-- 
+        <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+    {% if error %}
+         <p class="error">{{ error }}</p>
+    {% endif %}
+-->

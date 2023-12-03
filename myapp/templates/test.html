@@ -1,0 +1,684 @@
+{% load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Filterable Table</title>            
+    <style>
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 400px; /* Adjust the maximum width as needed */
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f5f5f5;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 0 auto; /* Center the container horizontally */
+            width: 90%; /* Width for larger screens */
+            position: absolute;
+
+        }
+        
+        /* Adjust the container styles for mobile */
+        @media (max-width: 767px) {
+            .container {
+                width: 100%; /* Full width for smaller screens */
+                /* border-radius: 0;  Remove border radius on mobile */
+            }
+        }
+        
+    
+        /* Add styles for custom dropdown */
+        .custom-select {
+            position: relative;
+            display: block;
+            margin-bottom: 8px;
+        }
+    
+        .select-style {
+            /*width: calc(100% - 22px);  Adjust width */
+            
+            padding: 10px;
+            border: 0px solid #4e7fc2;
+            background-color: #ffffff;
+            color: rgb(59, 59, 59);
+            cursor: pointer;
+            border-radius: 10px;
+            box-sizing: border-box;
+            width: 270px;
+            height: 50px;
+            transform: scale(1.2835, 1.2565);
+            transform-origin: 0px 0px 0px;
+        }
+    
+        .select-style:after {
+            content: "\f078"; /* FontAwesome caret-down icon font-family: FontAwesome;*/
+            font-family: "YAFdJgul-2U 0", "_fb_", "auto";
+            font-weight: 400;
+            font-style: normal;
+            font-kerning: auto ;
+            color: rgb(255, 255, 255);
+            background-color:rgb(63, 96, 160);
+            text-decoration: none;
+            position: absolute;
+            top: 30%;
+            right: 10px;
+            transform: translateY(-50%);
+        }
+        
+
+        /* Style the submit button */
+        input[type="submit"] {        
+            margin :auto;
+            display: block;
+            width: 55%;
+            padding: 15px;
+            background-color: #3f60a0;
+            font-weight: 400;
+            font-style: normal;
+            color: rgb(255, 255, 255);
+            font-kerning: auto ;            
+            font-family: "YAFdJgul-2U 0", "_fb_", "auto";
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            font-size: 16px;
+            text-align : center;
+        }
+    
+        input[type="submit"]:hover {
+            background-color: #3f60a0;
+        }
+    
+        /* Link style */
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 10px;
+        }
+        
+        /* Navbar styles */
+        
+        .navbar {
+            background-color: #3f60a0; /* Blue background color */
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000; /* Set a higher z-index */
+        }
+        
+        
+        .navbar-menu {
+            display: flex;
+            
+        }
+        
+        .menu-icon {
+            font-size: 24px;
+            cursor: pointer;
+            margin-right: 10px; /* Margin on the right side */
+        }
+        
+        .navbar-title {
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center; /* Center the title */
+            flex-grow: 1; /* Allow the title to grow and take available space */
+        }
+        
+
+
+        .dropdown-content {
+            display: none;
+            position: absolute; /* Position absolute to cover everything */
+            background-color: white;
+            padding: 10px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            top: 40px;
+            transition: left 0.3s ease; /* Add transition for smooth animation */
+            
+        }
+        
+
+        .dropdown-content.show {
+            left: 0;
+        }
+        
+        
+        .dropdown-content a {
+            color: black; /* Black text color for menu items */
+            padding: 10px;
+            text-decoration: none;
+            display: block;
+        }
+        
+        
+        
+        .dropdown-content a:hover {
+            background-color: #f0f0f0; /* Light gray background on hover */
+        }
+        
+        .show {
+            display: block;
+        }
+        
+        
+    </style>
+    
+    
+</head>
+<body>
+
+    
+        
+    <!-- Navigation bar -->
+    <div class="container">
+    <nav class="navbar">
+        <div class="navbar-menu">
+            <div class="menu-icon" onclick="toggleDropdown()">&#9776;</div>
+            <div class="dropdown-content" id="dropdownMenu">
+                {% if user.is_authenticated %}
+                <a href="#">{{user.username}}</a>
+                <a href="logout">logout</a>
+                {%else%}
+                <a href="login">login</a>
+                {% endif %}                
+            </div>
+        </div>
+        <div class="navbar-title"><span class="OYPEnA" style="font-family: 'YAEaP6ZaCOE 0', '_fb_', 'auto'; font-size: 33.3773px; color: rgb(255, 255, 255);
+            line-height: 46px;
+            letter-spacing: 0em;
+            --para-spacing: 0;
+            text-transform: none;
+            --head-indent: 0;
+            --numeric-list-marker: none;
+            list-style-type: none;">Mahattam Mohatsav</span></div>
+    </nav>
+</div>
+    
+    <div class="container">
+    <!-- Form for filtering -->
+
+    
+    
+    <div class="aF9o6Q _0yZ6Qg XfBqww" style="writing-mode: horizontal-tb; width: 210.396px; height: 30.2667px; transform: scale(1.783); transform-origin: 0px 0px 0px;">
+            <div lang="en-IN" class="AdBbhQ hGbcYA _7rUwsA" style="transform: translate(0px, -1.86667px);">
+                <p style="font-family: &quot;YAEZNa_UrWs 0&quot;, &quot;_fb_&quot;, &quot;auto&quot;; font-size: 18.6667px; color: rgb(59, 59, 59); line-height: 26px; letter-spacing: 0em; --para-spacing: 0; text-transform: none; --head-indent: 0; --numeric-list-marker: none; list-style-type: none; text-align : center" class="cgHgbA pYZEjA Xp24Nw PanoWQ">
+                    <span class="OYPEnA" style="font-weight: 400; font-style: normal; color: rgb(59, 59, 59); text-decoration: none;">|| वच्छल्ल पभावणे अष्ट ||</span>
+    </p></div></div>
+    
+       
+    <div class="aF9o6Q _0yZ6Qg XfBqww" style="writing-mode: horizontal-tb; width: 264px; height: 14.4753px; transform: scale(1.49275); transform-origin: 0px 0px 0px;">
+        <div lang="en-IN" class="AdBbhQ hGbcYA _7rUwsA" style="transform: translate(0px, -1.26235px);">
+            <p style="font-family: &quot;YAFdJgul-2U 0&quot;, &quot;_fb_&quot;, &quot;auto&quot;; font-size: 12.6235px; color: rgb(59, 59, 59); line-height: 17px; letter-spacing: 0em; --para-spacing: 0; text-transform: none; --head-indent: 0; --numeric-list-marker: none; list-style-type: none; text-align: right;" class="cgHgbA pYZEjA Xp24Nw PanoWQ">
+                    <span class="OYPEnA" style="font-weight: 100; font-style: normal; color: rgb(59, 59, 59); text-decoration: none;">Utryadhyan Adhyan 28</span>
+            </p>
+        </div>
+    </div>
+    <br><br>
+
+    <!-- for admin -->
+    {% if user.username == 'mmadmin' %} 
+    <form method="get" action="{% url 'filtered_table' %}">
+
+        <div class="custom-select">
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date">
+        </div>
+        <br>
+        <div class="custom-select">
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date">
+        </div>
+        <br>
+        {% comment %} 
+        <div class="custom-select">
+            <select name="filtertime" class="select-style">
+                <option value="">Time</option>
+                {% for option in time_options %}
+                    <option value="{{ option }}">{{ option }}</option>
+                {% endfor %}
+            </select>
+        </div> {% endcomment %}
+        <br>
+        <div class="custom-select">
+            <select name="filteractivity" id="filteractivity" class="select-style">
+                <option value="">Activity</option>                                
+                {% for option in activity_options %}
+                    <option value="{{ option }}">{{ option }}</option>                        
+                {% endfor %}          
+                <option value="Swadhay MM">Swadhay MM</option>
+                <option value="Tap Tyag MM">Tap Tyag MM</option>
+            </select>
+            
+        </div>
+        <br>
+        <div class="custom-select">
+            
+            
+                <select name="filterregion" id="filterregion" class="select-style">
+                <option value="">Region</option>
+                {% for option in region_options %}
+
+                    <option value="{{ option }}">{{ option }}</option>
+                {% endfor %}                
+                
+            </select>
+        </div>
+        <br>
+        <div class="custom-select">            
+                <select name="filtersubregion" id="filtersubregion" class="select-style">
+                
+                
+            </select> 
+        </div> 
+        <br>
+        {% comment %} <div class="custom-select">
+            <select name="filtersubactivity" id="filtersubactivity" class="select-style" multiple >
+                <option value="">Sub Activity</option>
+            </select>
+        </div>  {% endcomment %}
+
+        <div class="custom-select">
+            
+            <div id="subactivity-options" style="padding: 10px;border: 0px solid #4e7fc2;background-color: #ffffff;color: rgb(59, 59, 59);cursor: pointer;border-radius: 10px;box-sizing: border-box;width: 350px;/*! height: 50px; *//*! transform: scale(1.2835, 1.2565); *//*! transform-origin: 0px 0px 0px; */"></div>
+            
+        </div>
+
+        
+
+        <!-- Add a submit button to apply the filters -->
+        <input type="submit" value="Filter">
+    </form>
+
+    {% else %}
+    <!-- for normal user -->
+    <form method="get" action="{% url 'filtered_table' %}">
+
+        <div class="custom-select">
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date">
+        </div>
+        <br>
+        <div class="custom-select">
+            <label for="end_date">End Date:</label>
+            <input type="date" id="end_date" name="end_date">
+        </div>
+        <br>
+        {% comment %} 
+        <div class="custom-select">
+            <select name="filtertime" class="select-style">
+                <option value="">Time</option>
+                {% for option in time_options %}
+                    <option value="{{ option }}">{{ option }}</option>
+                {% endfor %}
+            </select>
+        </div> {% endcomment %}
+        <br>
+        <div class="custom-select">
+            <select name="filteractivity" id="filteractivity" class="select-style">
+                <option value="">Activity</option>                                
+                {% for option in activity_options %}
+                    <option value="{{ option }}">{{ option }}</option>                        
+                {% endfor %}          
+                <option value="Swadhay MM">Swadhay MM</option>
+                <option value="Tap Tyag MM">Tap Tyag MM</option>
+            </select>
+            
+        </div>
+        <br>
+        <div class="custom-select">
+            {% if user.is_authenticated %}
+            <select name="filterregion" id="fixfilterregion" class="select-style">
+                <option value={{user.region}}>{{user.region}}</option>
+                {% else %}
+                <select name="filterregion" id="filterregion" class="select-style">
+                <option value="">Region</option>
+                {% for option in region_options %}
+
+                    <option value="{{ option }}">{{ option }}</option>
+                {% endfor %}                
+                {% endif %}
+            </select>
+        </div>
+        <br>
+        <div class="custom-select">
+            {% if user.is_authenticated %} 
+            <select name="filtersubregion" id="fixfiltersubregion" class="select-style">   
+                <option value={{user.sub_region}}>{{user.sub_region}}</option>
+            {% else %}
+               <select name="filtersubregion" id="filtersubregion" class="select-style">
+            {% endif %}                
+                
+            </select> 
+        </div> 
+        <br>
+        {% comment %} <div class="custom-select">
+            <select name="filtersubactivity" id="filtersubactivity" class="select-style" multiple >
+                <option value="">Sub Activity</option>
+            </select>
+        </div>  {% endcomment %}
+
+        <div class="custom-select">
+            
+            <div id="subactivity-options" style="padding: 10px;border: 0px solid #4e7fc2;background-color: #ffffff;color: rgb(59, 59, 59);cursor: pointer;border-radius: 10px;box-sizing: border-box;width: 350px;/*! height: 50px; *//*! transform: scale(1.2835, 1.2565); *//*! transform-origin: 0px 0px 0px; */"></div>
+            
+        </div>
+
+        
+
+        <!-- Add a submit button to apply the filters -->
+        <input type="submit" value="Filter">
+    </form>
+    {% endif %}                
+
+    <script>
+        document.getElementById('filteractivity').addEventListener('change', function() {
+            var selectedActivity = this.value;
+            var regionDropdown = document.getElementById('filterregion');
+    
+            fetch('filtered_table_view/?filteractivity=' + selectedActivity)
+                .then(response => response.json())
+                .then(data => {
+                    regionDropdown.innerHTML = ''; // Clear existing options
+                    data.region_options.forEach(option => {
+                        var optionElement = document.createElement('option');
+                        optionElement.value = option;
+                        optionElement.textContent = option;
+                        regionDropdown.appendChild(optionElement);
+                    });
+                });
+        });
+    </script>
+    
+    
+    
+    
+{% comment %} 
+    <script>
+        document.getElementById('filteractivity').addEventListener('change', function() {
+            var selectedActivity = this.value;
+            var regionDropdown = document.getElementById('filterregion');
+    
+            fetch('/filtered_table_view/?filteractivity=' + selectedActivity)
+                .then(response => response.json())
+                .then(data => {
+                    regionDropdown.innerHTML = ''; // Clear existing options
+                    data.region_options.forEach(option => {
+                        var optionElement = document.createElement('option');
+                        optionElement.value = option;
+                        optionElement.textContent = option;
+                        regionDropdown.appendChild(optionElement);
+                    });
+                });
+        });
+    </script> {% endcomment %}
+    
+    
+    <script>
+        // Data structure for subregions related to each region
+        {% comment %} const subregionsByRegion = {
+            'Swadhay MM':{'छत्तीसगढ़-ओडीशा अंचल':['Balod','Raipur'],
+            'पूर्वोत्तर अंचल':['Guwahati','Silchar'],
+            'Bengal-Bihar-Nepal-Bhutan':['COOCH BEHAR','Dinhata','Forbisganj','Hindmotor','Howrah','Kathmandu,Nepal.','kolkata','Belur hawra','Siliguri',],'Bikaner Marwad Anchal':['Gagashahar','Bikaner','churu','Bhinaser','Deshnoke','Balesar','Jodhpur','Alai','Lunkarasar','Nokha','Nokha mandi','Pal','Panchori','phalodi','Poogal','Sangaria','Sardarshahar','SURATGARH',],'Karnataka-Andrapradesh Anchal':['Bangalore','Holenarsipura','Belgaum','Bijapur','Holenarsipura','Hospet','Hubli','Hunsoor','Hyderabad','Kadur','Mysore','Raichur','Secunderabad',],'Delhi-Punjab-Haryana-UP Anchal':['Zirakpur','Delhi','Gaziyabad','Gurugram','Indirapuram','Nimdhi','Noida','Panchkula',],'Jaipur-Beawer Anchal':['Ajmer','Bajariya','Beawar','Jaipur','mansarover','Bajariya','Bijainagar','Chauth Ka Barwara','Deoli','Dudu','Kekri','Kishangarh','Kota','Laxmi Nagar','Madanganj kishangarh','Sawai madhopur','Tilak Nagar'],
+            'Madhya Pradesh Anchal':['Balaghat','Jaora','Kanwan','Mundi','Pipliya Mandi','Ratlam','Chalisgaon','Dondaicha','Jalgaon','Nandurbar','Savalivihir','Shahada','Shirpur','Anjad','Ashoknagar','Ashta','Badnawar','Balaghat','Balwadi','Birmawal','Burahanpur','Changotola','Charuwa','Dalouda','Dhamniya','Gudi','HARDA','HOSHANGABAD','Ichhapur','Indore','Jawad','Kanwan','Katangi','Khachrod','Khetia','Mahidpur Road','Manasa','Mandsaur','Morvan dem','Nagda junction','NAriangarh','Neemuch','Pipliya Mandi','Rampura','Raoti','Seoni malwa','Sitamau','Ujjain'],
+            'Maharashtra Vidharbh Khandesh Anchal':['Akkalkuwa','Akola','Amalner','Aurangabad','Beed','Bharadi sillod','Bodwad','Chalisgaon','Chinchwad','Chopda','Dhamangaon Railway','Dhule','Dondaicha','Georai','Gewrai','Hadapsar','Jalgaon','Karanja laad','Kura kakoda','Lasur','Madhavnagar','Mhasawad','Molgi','Muktainagar','Mumbai','Nagpur','Nandurbar','Nardana','Nashik','Pachora','Paratwada','Rahuri Factory','Sambhajinagar','Sarangkheda','Savalivihir','Shahada','Shelubazar','Shevgoan','Shindkheda','Shirpur','Sindhkeda','Sinner','Sonai','Vaijapur','Varangaon','Vihamandwa','Wagholi','Yavatmal',],
+            'Mewad Anchal':['Asawara','Badisadri','Bambora','Begun','Bhadesar','Bhilwara','Bhim','Boheda','Chikarda','Chittorgarh','Chotti sadri','Gangapur','Kankroli','Kanod','Kapasan','Lasadwan','Nathdwara','Nikumbh','Nimbahera','Post Mangalwar','Pratapgarh','Udaipur',],
+            'Mumbai-Gujarat-UAE Anchal':['Ahmedabad','Akurdi','Chinchwad','Mumbai','Pimpri','Pune','Surat','Utran amroli','Vadodara','Vashi','Bhayandar','Boriwali','Chandwad','Dumas','Goregaon','Kandivali','Majalgaon','Mirajgoan','Nidgi, Pradhikaran','Poona','Selamba',],
+            'Odisha Chhattisgarh':['Ahiwara','Ambagarh Chowki','Arjuni','Balod','Berla','Bhakhara','Chhuikhdan','Dallirajhara','Dantewada','Deokar','dhamdha','Dhamtari','Dondi','Dondi Lohara','Dongargaon','Durg','Geedam','Gunderdehi','Jagdalpur','Kalangpur','Kawardha','Khairagarh','Khariar Road','Kondagaon','Kusumkasa','Lakhanpuri','Mahasamund','Mudhipar','Nagari','NArianpur','Nuapada','Raichur','Raipur','Rajanandgaon','Saja','sambalpur dondi Lohara',]
+            'Purvator Anchal':['Dharamnagar','Guwahati','Kailashahar','lala','Patharkandi','Silapathar','Tangala',],
+            'Tamilnadu Anchal':['Chennai','Mayiladuthurau','Nachiyar koil','Sirkali','Puzhal','Ranipet','Salem','Sirkali','sriperumbuar','thirukovilur','Tirupur','Utteramerur'],
+            },
+            //start work from here on 24/10/23
+            'Tap Tyag MM':{'कर्नाटक-आंध्र प्रदेश अंचल': ['Bengaluru'],
+                'छत्तीसगढ़-ओडीशा अंचल': ['Balod','Raipur'],
+                'पूर्वोत्तर अंचल': ['Guwahati','Silchar'],
+                'बीकानेर-मारवाड़ अंचल': ['Gagashahar','Bikaner'],  
+                'Karnataka': ['Bengaluru'],},
+                // Add more regions and subregions as needed
+        }; {% endcomment %}
+
+        const subregionsByRegion = {'छत्तीसगढ़-ओडीशा अंचल':['Balod','Raipur'],            
+            'Bengal-Bihar-Nepal-Bhutan':['COOCH BEHAR','Dinhata','Forbisganj','Hindmotor','Howrah','Kathmandu,Nepal.','kolkata','Belur hawra','Siliguri',],
+            'Bikaner Marwad Anchal':['Gagashahar','Bikaner','churu','Bhinaser','Deshnoke','Balesar','Jodhpur','Alai','Lunkarasar','Nokha','Nokha mandi','Pal','Panchori','phalodi','Poogal','Sangaria','Sardarshahar','SURATGARH',],
+            'Karnataka-Andrapradesh Anchal':['Bangalore','Holenarsipura','Belgaum','Bijapur','Holenarsipura','Hospet','Hubli','Hunsoor','Hyderabad','Kadur','Mysore','Raichur','Secunderabad',],
+            'Delhi-Punjab-Haryana-UP Anchal':['Zirakpur','Delhi','Gaziyabad','Gurugram','Indirapuram','Nimdhi','Noida','Panchkula',],
+            'Jaipur-Beawer Anchal':['Ajmer','Bajariya','Beawar','Jaipur','mansarover','Bajariya','Bijainagar','Chauth Ka Barwara','Deoli','Dudu','Kekri','Kishangarh','Kota','Laxmi Nagar','Madanganj kishangarh','Sawai madhopur','Tilak Nagar'],
+            'Madhya Pradesh Anchal':['Balaghat','Jaora','Kanwan','Mundi','Pipliya Mandi','Ratlam','Chalisgaon','Dondaicha','Jalgaon','Nandurbar','Savalivihir','Shahada','Shirpur','Anjad','Ashoknagar','Ashta','Badnawar','Balaghat','Balwadi','Birmawal','Burahanpur','Changotola','Charuwa','Dalouda','Dhamniya','Gudi','HARDA','HOSHANGABAD','Ichhapur','Indore','Jawad','Kanwan','Katangi','Khachrod','Khetia','Mahidpur Road','Manasa','Mandsaur','Morvan dem','Nagda junction','NAriangarh','Neemuch','Pipliya Mandi','Rampura','Raoti','Seoni malwa','Sitamau','Ujjain'],
+            'Maharashtra Vidharbh Khandesh Anchal':['Akkalkuwa','Akola','Amalner','Aurangabad','Beed','Bharadi sillod','Bodwad','Chalisgaon','Chinchwad','Chopda','Dhamangaon Railway','Dhule','Dondaicha','Georai','Gewrai','Hadapsar','Jalgaon','Karanja laad','Kura kakoda','Lasur','Madhavnagar','Mhasawad','Molgi','Muktainagar','Mumbai','Nagpur','Nandurbar','Nardana','Nashik','Pachora','Paratwada','Rahuri Factory','Sambhajinagar','Sarangkheda','Savalivihir','Shahada','Shelubazar','Shevgoan','Shindkheda','Shirpur','Sindhkeda','Sinner','Sonai','Vaijapur','Varangaon','Vihamandwa','Wagholi','Yavatmal',],
+            'Mewad Anchal':['Asawara','Badisadri','Bambora','Begun','Bhadesar','Bhilwara','Bhim','Boheda','Chikarda','Chittorgarh','Chotti sadri','Gangapur','Kankroli','Kanod','Kapasan','Lasadwan','Nathdwara','Nikumbh','Nimbahera','Post Mangalwar','Pratapgarh','Udaipur',],
+            'Mumbai-Gujarat-UAE Anchal':['Ahmedabad','Akurdi','Chinchwad','Mumbai','Pimpri','Pune','Surat','Utran amroli','Vadodara','Vashi','Bhayandar','Boriwali','Chandwad','Dumas','Goregaon','Kandivali','Majalgaon','Mirajgoan','Nidgi, Pradhikaran','Poona','Selamba',],
+            'Odisha Chhattisgarh':['Ahiwara','Ambagarh Chowki','Arjuni','Balod','Berla','Bhakhara','Chhuikhdan','Dallirajhara','Dantewada','Deokar','dhamdha','Dhamtari','Dondi','Dondi Lohara','Dongargaon','Durg','Geedam','Gunderdehi','Jagdalpur','Kalangpur','Kawardha','Khairagarh','Khariar Road','Kondagaon','Kusumkasa','Lakhanpuri','Mahasamund','Mudhipar','Nagari','NArianpur','Nuapada','Raichur','Raipur','Rajanandgaon','Saja','sambalpur dondi Lohara',],
+            'Purvator Anchal':['Dharamnagar','Guwahati','Kailashahar','lala','Patharkandi','Silapathar','Tangala',],
+            'Tamilnadu Anchal':['Chennai','Mayiladuthurau','Nachiyar koil','Sirkali','Puzhal','Ranipet','Salem','Sirkali','sriperumbuar','thirukovilur','Tirupur','Utteramerur'],}
+
+            const filterRegionDropdown = document.getElementById('filterregion');
+            const filterSubregionDropdown = document.getElementById('filtersubregion');
+            
+            // Event listener to update subregion dropdown based on selected region
+            filterRegionDropdown.addEventListener('change', function () {
+                const selectedRegion = this.value;
+                const subregions = subregionsByRegion[selectedRegion] || [];
+        
+                // Clear existing options
+                filterSubregionDropdown.innerHTML = '<option value="">Sub region</option>';
+        
+                // Add subregion options based on the selected region
+                subregions.forEach(subregion => {
+                    const option = document.createElement('option');
+                    option.value = subregion;
+                    option.textContent = subregion;
+                    filterSubregionDropdown.appendChild(option);
+                });
+            });
+        
+    </script>
+        {% comment %} const filterRegionDropdown = document.getElementById('filterregion');
+        const filterSubregionDropdown = document.getElementById('filtersubregion');
+        const filterActivityDropdown = document.getElementById('filteractivity');
+
+        // Event listener to update subregion dropdown based on selected region and activity
+        filterRegionDropdown.addEventListener('change', updateSubregions);
+        filterActivityDropdown.addEventListener('change', updateSubregions);
+
+        function updateSubregions() {
+            const selectedRegion = filterRegionDropdown.value;
+            const selectedActivity = filterActivityDropdown.value;
+            const subregions = subregionsByRegion[selectedActivity][selectedRegion] || [];
+
+            // Clear existing options
+            filterSubregionDropdown.innerHTML = '<option value="">Sub region</option>';
+
+            // Add subregion options based on the selected region and activity
+            if (selectedActivity in subregions) {
+                subregions[selectedActivity].forEach(subregion => {
+                    const option = document.createElement('option');
+                    option.value = subregion;
+                    option.textContent = subregion;
+                    filterSubregionDropdown.appendChild(option);
+                });
+            }
+        }
+    </script> {% endcomment %}
+
+        
+    
+        {% comment %} const filterRegionDropdown = document.getElementById('filterregion');
+        const filterSubregionDropdown = document.getElementById('filtersubregion');
+        
+        // Event listener to update subregion dropdown based on selected region
+        filterRegionDropdown.addEventListener('change', function () {
+            const selectedRegion = this.value;
+            const subregions = subregionsByRegion[selectedRegion] || [];
+    
+            // Clear existing options
+            filterSubregionDropdown.innerHTML = '<option value="">Sub region</option>';
+    
+            // Add subregion options based on the selected region
+            subregions.forEach(subregion => {
+                const option = document.createElement('option');
+                option.value = subregion;
+                option.textContent = subregion;
+                filterSubregionDropdown.appendChild(option);
+            });
+        });
+        
+    </script> {% endcomment %}
+
+
+    {% comment %} <div class="custom-select">
+            
+        <div id="subactivity-options" style="padding: 10px;border: 0px solid #4e7fc2;background-color: #ffffff;color: rgb(59, 59, 59);cursor: pointer;border-radius: 10px;box-sizing: border-box;width: 350px;/*! height: 50px; *//*! transform: scale(1.2835, 1.2565); *//*! transform-origin: 0px 0px 0px; */"></div>
+    </div> {% endcomment %}
+    
+    {% comment %} <script>
+    // Data structure for subactivities related to each activity
+    const subactivitiesByActivity = {
+        'Gyanarjan MM': ['SA2', 'SA3', 'SA4'],
+        'Tap Tyag MM': {'A1':'A1','A2':'A2','आप महत्तम महोत्सव में फरवरी 2025 तक  प्रतिदिन 1 घंटा मौन आराधना करेंगे':'A3','आप महत्तम महोत्सव में फरवरी 2025 तक  प्रतिमाह 4 रात्रि चौविहार प्रत्याख्यान_सूर्यास्त से अगले दिन तक नवकारसी_पक्की नवकारसी कर जीवो को अभय दान देंगे':'A4','आप महत्तम महोत्सव में फरवरी 2025 तक 50 दिन पूर्ण सूर्य अस्त से सूर्य उदय संवर/पौषध/ पूर्ण दया करेंगे':'a5','आप महत्तम महोत्सव में फरवरी 2025 तक दूध_दही_घी_तेल_मीठा  में से किसी भी एक विगय का प्रतिदिन त्याग करेंग :"a6'},
+        // Add more activities and subactivities as needed
+    };
+    
+    const filterActivityDropdown = document.getElementById('filteractivity');
+    const subactivityOptionsContainer = document.getElementById('subactivity-options');
+
+    // Event listener to update subactivity options based on selected activity
+    filterActivityDropdown.addEventListener('change', function () {
+        const selectedActivity = this.value;
+        const subactivities = subactivitiesByActivity[selectedActivity] || [];
+
+        // Clear existing options
+        subactivityOptionsContainer.innerHTML = '';
+
+        // Add subactivity options based on the selected activity
+        subactivities.forEach(filtersubactivity => {
+            const label = document.createElement('label');
+            label.textContent = filtersubactivity;
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.name = 'filtersubactivity';
+            checkbox.value = filtersubactivity;
+
+        
+            label.appendChild(checkbox);
+            subactivityOptionsContainer.appendChild(label);
+        });
+
+        
+    });
+</script> {% endcomment %}
+<script>
+        // Data structure for subactivities related to each activity
+    const subactivitiesByActivity = {
+        'Tap Tyag MM': ['SA2', 'SA3', 'SA4'],
+        'Swadhay MM': {
+            'A1': 'आप  आचार्य भगवन के प्रवचन / चिंतन की पुस्तकें पढ़ने के प्रकल्प से जुड़ना चाहते हैं?Note : हर वर्ष में  3 पुस्तकें  पढ़कर उनपर आधारित परीक्षा',
+            'A2': 'Eye to I (Hindi), ब्रह्माक्षर और भ्रामरी - ये तीनो पुस्तक आपके पास उपलब्ध है ',
+            'A3':'आप 9 महापुरुषों (आचार्यों )के जीवन परिचय को पढ़ने के प्रकल्प से जुड़ना चाहते हैं ?',
+            'A4':'क्या आपके पास इस संबंध में पुस्तक उपलब्ध है ?',
+            'A5':'क्या आपने कभी 9 महापुरुषों ( आचार्यों ) का जीवन चारित्र पढ़ा है ?',
+            'A6':'क्या आप आध्यात्मिक आरोग्यम के 9 बिंदुओं के बारे में जानते है ?',
+            'A7':'क्या आप आध्यात्मिक आरोग्यम का हिस्सा बनना चाहते है?',
+            'A8':'क्या आप संघ द्वारा प्रेषित आध्यात्मिक आरोग्यम की पुस्तक प्राप्त करना चाहते हैं?',
+            'A9':'आप श्रीमद् दशवैकालिक सूत्र के 4 अध्ययन कंठस्थ करने के प्रकल्प से जुड़ना चाहते हैं?',
+        },
+        // Add more activities and subactivities as needed
+    };
+    
+    const filterActivityDropdown = document.getElementById('filteractivity');
+    const subactivityOptionsContainer = document.getElementById('subactivity-options');
+
+    // Event listener to update subactivity options based on selected activity
+    filterActivityDropdown.addEventListener('change', function () {
+        const selectedActivity = this.value;
+        const subactivities = subactivitiesByActivity[selectedActivity] || {};
+
+        // Clear existing options
+        subactivityOptionsContainer.innerHTML = '';
+
+        // Add subactivity options based on the selected activity
+        for (const subactivity in subactivities) {
+            if (subactivities.hasOwnProperty(subactivity)) {
+                const label = document.createElement('label');
+                label.textContent = subactivities[subactivity];
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.name = 'filtersubactivity';
+                checkbox.value = subactivity;
+
+                label.appendChild(checkbox);
+                subactivityOptionsContainer.appendChild(label);
+                subactivityOptionsContainer.appendChild(document.createElement('br'));
+            }
+        }
+    });
+</script>
+
+
+{% comment %} 
+     <script> 
+        // Data structure for subactivities related to each activity
+        const subactivitiesByActivity = {
+            'Gyanarjan MM': ['SubActivity1_1', 'SubActivity1_2', 'SubActivity1_3'],
+            'TapTyag MM': ['SubActivity2_1', 'SubActivity2_2', 'SubActivity2_3'],
+            // Add more activities and subactivities as needed
+        };
+    
+        const filterActivityDropdown = document.getElementById('filteractivity');
+        const filterSubactivityDropdown = document.getElementById('filtersubactivity');
+    
+        // Event listener to update subactivity dropdown based on selected activity
+        filterActivityDropdown.addEventListener('change', function () {            
+            const selectedActivity = this.value;
+            const subactivities = subactivitiesByActivity[selectedActivity] || [];
+    
+            // Clear existing options
+            filterSubactivityDropdown.innerHTML = '<option value="">Sub Activity</option>';
+    
+            // Add subactivity options based on the selected activity
+            subactivities.forEach(subactivity => {
+                const option = document.createElement('option');
+                option.value = subactivity;
+                option.textContent = subactivity;
+                filterSubactivityDropdown.appendChild(option);
+            });
+        });
+
+    </script> {% endcomment %}
+    
+    <!-- Link to the filtered table page -->
+    
+    </div>
+    <script>
+        function toggleDropdown() {
+            var dropdownMenu = document.getElementById("dropdownMenu");
+            dropdownMenu.classList.toggle("show");
+        }        
+        
+    </script>
+
+    {% comment %} <script  src = "{% static "js/multiselect-dropdown/multiselect-dropdown.js" %}"> </script> {% endcomment %}
+</body>
+</html>
+
+
+
+
+
